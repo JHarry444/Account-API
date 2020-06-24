@@ -1,20 +1,22 @@
 package com.qa.account.service;
 
-import org.springframework.stereotype.Service;
+import java.util.Random;
 
-import com.qa.account.util.NumberGenerator;
+import org.springframework.stereotype.Service;
 
 @Service
 public class AccountNumGenService {
 
-	private NumberGenerator numGen;
-
-	public AccountNumGenService(NumberGenerator numGen) {
-		this.numGen = numGen;
-	}
+	private char[] type = { 'a', 'b', 'c' };
+	private Random rand = new Random();
 
 	public String genNumber() {
-		return this.numGen.genNumber();
+		int length = 6 + (2 * rand.nextInt(3));
+		char accountType = type[rand.nextInt(3)];
+		String output = "" + accountType;
+		for (int i = 0; i < length; i++) {
+			output += rand.nextInt(10);
+		}
+		return output;
 	}
-
 }

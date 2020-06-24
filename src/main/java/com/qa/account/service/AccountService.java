@@ -2,66 +2,60 @@ package com.qa.account.service;
 
 import java.util.List;
 
-import javax.security.auth.login.AccountNotFoundException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.qa.account.persistence.domain.Account;
 import com.qa.account.persistence.repo.AccountRepo;
+import com.qa.account.util.exceptions.AccountNotFoundException;
 
 @Service
 public class AccountService {
 
-	@Autowired
 	private AccountRepo repo;
-	@Autowired
 	private AccountNumGenService numGen;
-	@Autowired
 	private PrizeGenService prizeGen;
 
-	public ResponseEntity<List<Account>> getAccounts() {
-		return ResponseEntity.ok(repo.findAll());
+	public AccountService(AccountRepo repo, AccountNumGenService numGen, PrizeGenService prizeGen) {
+		super();
+		this.repo = repo;
+		this.numGen = numGen;
+		this.prizeGen = prizeGen;
 	}
 
-	public ResponseEntity<Account> getAccount(Long id) {
-		try {
-			Account found = repo.findById(id).orElseThrow(() -> new AccountNotFoundException(id.toString()));
-			return ResponseEntity.ok(found);
-		} catch (AccountNotFoundException anfe) {
-			return ResponseEntity.notFound().build();
-		}
+	public List<Account> getAccounts() {
+		return repo.findAll();
+	}
+
+	public Account getAccount(Long id) {
+		return repo.findById(id).orElseThrow(() -> new AccountNotFoundException(id.toString()));
 
 	}
 
-	public ResponseEntity<Account> addAccount(Account account) {
+	public Account addAccount(Account account) {
 		account.setAccountNumber(this.numGen.genNumber());
 		account.setPrize(prizeGen.genPrize(account.getAccountNumber()));
-		return ResponseEntity.ok(this.repo.save(account));
+		return this.repo.save(account);
 	}
 
-	public ResponseEntity<Object> deleteAccount(Long id) {
+	public boolean deleteAccount(Long id) {
 		if (accountExists(id)) {
 			repo.deleteById(id);
-			return ResponseEntity.ok().build();
 		}
-		return ResponseEntity.notFound().build();
+		return repo.existsById(id);
 	}
 
 	private boolean accountExists(Long id) {
 		return repo.findById(id).isPresent();
 	}
 
-	public ResponseEntity<Object> updateAccount(Account account, Long id) {
+	public Account updateAccount(Account account, Long id) {
 		if (accountExists(id)) {
 			Account toUpdate = this.repo.findById(id).get();
 			toUpdate.setFirstName(account.getFirstName());
 			toUpdate.setLastName(account.getLastName());
-			repo.save(account);
-			return ResponseEntity.ok().build();
+			return repo.save(account);
 		}
-		return ResponseEntity.notFound().build();
+		return null;
 	}
 
 }
