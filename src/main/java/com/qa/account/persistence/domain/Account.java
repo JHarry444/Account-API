@@ -22,6 +22,12 @@ public class Account {
 	@Column(unique = true, name = "account_number")
 	private String accountNumber;
 
+	public Account(String firstName, String lastName) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+	}
+
 	public Account(String firstName, String lastName, String accountNumber, double prize) {
 		super();
 		this.firstName = firstName;
