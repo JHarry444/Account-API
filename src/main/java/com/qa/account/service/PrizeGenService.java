@@ -6,23 +6,26 @@ import org.springframework.stereotype.Service;
 public class PrizeGenService {
 
 	public double genPrize(String accountNum) {
-		if (accountNum.toLowerCase().startsWith("b")) {
-			if (accountNum.length() == 7) {
-				return 50;
-			} else if (accountNum.length() == 9) {
-				return 500;
-			} else if (accountNum.length() == 10) {
-				return 5000;
+		double prize = 0;
+		accountNum = accountNum.toLowerCase();
+		final int NUM_LENGTH  = accountNum.length();
+		if (accountNum.startsWith("b")) {
+			if (NUM_LENGTH == 7) {
+				prize =  50;
+			} else if (NUM_LENGTH == 9) {
+				prize =  500;
+			} else if (NUM_LENGTH == 10) {
+				prize =  5000;
 			}
-		} else if (accountNum.toLowerCase().startsWith("c")) {
-			if (accountNum.length() == 7) {
-				return 100;
-			} else if (accountNum.length() == 9) {
-				return 750;
-			} else if (accountNum.length() == 10) {
-				return 10000;
+		} else if (accountNum.startsWith("c")) {
+			if (NUM_LENGTH == 7) {
+				prize =  100;
+			} else if (NUM_LENGTH == 9) {
+				prize =  750;
+			} else if (NUM_LENGTH == 10) {
+				prize =  10000;
 			}
 		}
-		return 0;
+		return prize;
 	}
 }
