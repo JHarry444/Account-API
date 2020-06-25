@@ -31,10 +31,10 @@ public class AccountService {
 
 	}
 
-	public Account addAccount(Account account) {
-		account.setAccountNumber(this.numGen.genNumber());
-		account.setPrize(prizeGen.genPrize(account.getAccountNumber()));
-		return this.repo.save(account);
+	public Account addAccount(Account account) { // Account fname + lname
+		account.setAccountNumber(this.numGen.genNumber()); // string accNo
+		account.setPrize(this.prizeGen.genPrize(account.getAccountNumber())); // double prize
+		return this.repo.save(account);  // Account toSave Account saved
 	}
 
 	public boolean deleteAccount(Long id) {

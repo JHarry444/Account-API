@@ -12,17 +12,17 @@ public class PrizeGenService {
 		if (accountNum.startsWith("b")) {
 			if (NUM_LENGTH == 7) {
 				prize =  50;
-			} else if (accountNum.length() == 9) {
+			} else if (NUM_LENGTH == 9) {
 				prize =  500;
-			} else if (accountNum.length() == 10) {
+			} else if (NUM_LENGTH == 10) {
 				prize =  5000;
 			}
 		} else if (accountNum.startsWith("c")) {
 			if (NUM_LENGTH == 7) {
 				prize =  100;
-			} else if (accountNum.length() == 9) {
+			} else if (NUM_LENGTH == 9) {
 				prize =  750;
-			} else if (accountNum.length() == 10) {
+			} else if (NUM_LENGTH == 10) {
 				prize =  10000;
 			}
 		}

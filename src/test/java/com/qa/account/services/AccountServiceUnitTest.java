@@ -45,19 +45,20 @@ public class AccountServiceUnitTest {
 	@Test
 	public void testRegister() {
 		final String accountNum = "a123456";
-		final double prize = 0.0;
+		final double prize = 44.94;
 		this.savedAccount.setAccountNumber(accountNum);
 		this.savedAccount.setPrize(prize);
-		Account accWithNumberAndPrize = new Account(testAccount.getFirstName(), testAccount.getLastName(), accountNum, prize);
+		Account accWithNumberAndPrizeButNoID = new Account(testAccount.getFirstName(), testAccount.getLastName(), accountNum, prize);
 		
 		Mockito.when(this.numGen.genNumber()).thenReturn(accountNum);
 		Mockito.when(this.prizeGen.genPrize(accountNum)).thenReturn(prize);
-		Mockito.when(this.repo.save(accWithNumberAndPrize)).thenReturn(this.savedAccount);
+		Mockito.when(this.repo.save(accWithNumberAndPrizeButNoID)).thenReturn(this.savedAccount);
 
 		assertEquals(this.savedAccount, this.service.addAccount(testAccount));
 		
 		Mockito.verify(this.numGen, Mockito.times(1)).genNumber();
 		Mockito.verify(this.prizeGen, Mockito.times(1)).genPrize(accountNum);
+		Mockito.verify(this.repo, Mockito.times(1)).save(accWithNumberAndPrizeButNoID);
 	}
 
 }
